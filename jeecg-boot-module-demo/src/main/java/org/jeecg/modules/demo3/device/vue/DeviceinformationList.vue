@@ -5,13 +5,13 @@
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="设备编号">
-              <a-input placeholder="请输入设备编号" v-model="queryParam.code"></a-input>
+            <a-form-item label="设备名称">
+              <a-input placeholder="请输入设备名称" v-model="queryParam.name"></a-input>
             </a-form-item>
           </a-col>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="设备名称">
-              <a-input placeholder="请输入设备名称" v-model="queryParam.name"></a-input>
+            <a-form-item label="设备编号">
+              <a-input placeholder="请输入设备编号" v-model="queryParam.code"></a-input>
             </a-form-item>
           </a-col>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
@@ -144,11 +144,6 @@
             }
           },
           {
-            title:'设备编号',
-            align:"center",
-            dataIndex: 'code'
-          },
-          {
             title:'设备名称',
             align:"center",
             dataIndex: 'name'
@@ -157,6 +152,16 @@
             title:'规格型号',
             align:"center",
             dataIndex: 'model'
+          },
+          {
+            title:'状态',
+            align:"center",
+            dataIndex: 'states'
+          },
+          {
+            title:'设备编号',
+            align:"center",
+            dataIndex: 'code'
           },
           {
             title:'生产厂家',
@@ -176,12 +181,10 @@
           {
             title:'投产日期',
             align:"center",
-            dataIndex: 'commissiondate'
-          },
-          {
-            title:'数量',
-            align:"center",
-            dataIndex: 'quantity'
+            dataIndex: 'commissiondate',
+            customRender:function (text) {
+              return !text?"":(text.length>10?text.substr(0,10):text)
+            }
           },
           {
             title:'单价',
@@ -189,12 +192,12 @@
             dataIndex: 'unitprice'
           },
           {
-            title:'保养人',
+            title:'仪器负责人',
             align:"center",
             dataIndex: 'maintainer'
           },
           {
-            title:'仪器部门',
+            title:'仪器使用部门',
             align:"center",
             dataIndex: 'instrunentdept'
           },
@@ -204,39 +207,66 @@
             dataIndex: 'placementlocation'
           },
           {
-            title:'仪器检测日期',
-            align:"center",
-            dataIndex: 'instrumenttestdate'
-          },
-          {
-            title:'下次检测日期',
-            align:"center",
-            dataIndex: 'nexttestdate'
-          },
-          {
             title:'说明书',
             align:"center",
             dataIndex: 'descriptionString'
           },
           {
-            title:'仪器，设备',
+            title:'校验类型（自校）',
             align:"center",
-            dataIndex: 'instrumentandequipment'
+            dataIndex: 'selfcalibration'
           },
           {
-            title:'性质类别',
+            title:'自校.校验周期',
             align:"center",
-            dataIndex: 'naturecategory'
+            dataIndex: 'selfcalibrationcycle'
           },
           {
-            title:'重要性类别',
+            title:'自校.校验日期',
             align:"center",
-            dataIndex: 'importancecategory'
+            dataIndex: 'instrumenttestdate'
           },
           {
-            title:'状态',
+            title:'校验证书（自校）',
             align:"center",
-            dataIndex: 'states'
+            dataIndex: 'selfcalibrationimgs',
+            scopedSlots: {customRender: 'imgSlot'}
+          },
+          {
+            title:'校验类型（外校）',
+            align:"center",
+            dataIndex: 'othercalibration'
+          },
+          {
+            title:'校验周期（外校）',
+            align:"center",
+            dataIndex: 'othercalibrationcycle'
+          },
+          {
+            title:'外校.校验日期',
+            align:"center",
+            dataIndex: 'nexttestdate'
+          },
+          {
+            title:'校验证书（外校）',
+            align:"center",
+            dataIndex: 'othercalibrationimgs',
+            scopedSlots: {customRender: 'imgSlot'}
+          },
+          {
+            title:'维护保养周期',
+            align:"center",
+            dataIndex: 'maintenancecycle'
+          },
+          {
+            title:'维护保养日期',
+            align:"center",
+            dataIndex: 'maintenancedate'
+          },
+          {
+            title:'维护保养记录（照片/视频）',
+            align:"center",
+            dataIndex: 'maintenanceimg'
           },
           {
             title:'备注',
@@ -277,26 +307,31 @@
       },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'code',text:'设备编号',dictCode:''})
         fieldList.push({type:'string',value:'name',text:'设备名称',dictCode:''})
         fieldList.push({type:'string',value:'model',text:'规格型号',dictCode:''})
-        fieldList.push({type:'Blob',value:'qrcode',text:'二维码',dictCode:''})
+        fieldList.push({type:'string',value:'states',text:'状态',dictCode:''})
+        fieldList.push({type:'string',value:'code',text:'设备编号',dictCode:''})
         fieldList.push({type:'string',value:'manufacturer',text:'生产厂家',dictCode:''})
+        fieldList.push({type:'string',value:'qrcodeStringUrl',text:'二维码Url',dictCode:''})
         fieldList.push({type:'string',value:'manufacturercode',text:'出产编号',dictCode:''})
         fieldList.push({type:'datetime',value:'manufacturerdate',text:'出产日期'})
-        fieldList.push({type:'datetime',value:'commissiondate',text:'投产日期'})
-        fieldList.push({type:'int',value:'quantity',text:'数量',dictCode:''})
+        fieldList.push({type:'date',value:'commissiondate',text:'投产日期'})
         fieldList.push({type:'double',value:'unitprice',text:'单价',dictCode:''})
-        fieldList.push({type:'string',value:'maintainer',text:'保养人',dictCode:''})
-        fieldList.push({type:'string',value:'instrunentdept',text:'仪器部门',dictCode:''})
+        fieldList.push({type:'string',value:'maintainer',text:'仪器负责人',dictCode:''})
+        fieldList.push({type:'string',value:'instrunentdept',text:'仪器使用部门',dictCode:''})
         fieldList.push({type:'string',value:'placementlocation',text:'放置地点',dictCode:''})
-        fieldList.push({type:'datetime',value:'instrumenttestdate',text:'仪器检测日期'})
-        fieldList.push({type:'datetime',value:'nexttestdate',text:'下次检测日期'})
         fieldList.push({type:'Blob',value:'description',text:'说明书',dictCode:''})
-        fieldList.push({type:'string',value:'instrumentandequipment',text:'仪器，设备',dictCode:''})
-        fieldList.push({type:'string',value:'naturecategory',text:'性质类别',dictCode:''})
-        fieldList.push({type:'string',value:'importancecategory',text:'重要性类别',dictCode:''})
-        fieldList.push({type:'string',value:'states',text:'状态',dictCode:''})
+        fieldList.push({type:'string',value:'selfcalibration',text:'校验类型（自校）',dictCode:''})
+        fieldList.push({type:'string',value:'selfcalibrationcycle',text:'自校.校验周期',dictCode:''})
+        fieldList.push({type:'datetime',value:'instrumenttestdate',text:'自校.校验日期'})
+        fieldList.push({type:'string',value:'selfcalibrationimgs',text:'校验证书（自校）',dictCode:''})
+        fieldList.push({type:'string',value:'othercalibration',text:'校验类型（外校）',dictCode:''})
+        fieldList.push({type:'string',value:'othercalibrationcycle',text:'校验周期（外校）',dictCode:''})
+        fieldList.push({type:'datetime',value:'nexttestdate',text:'外校.校验日期'})
+        fieldList.push({type:'string',value:'othercalibrationimgs',text:'校验证书（外校）',dictCode:''})
+        fieldList.push({type:'string',value:'maintenancecycle',text:'维护保养周期',dictCode:''})
+        fieldList.push({type:'datetime',value:'maintenancedate',text:'维护保养日期'})
+        fieldList.push({type:'string',value:'maintenanceimg',text:'维护保养记录（照片/视频）',dictCode:''})
         fieldList.push({type:'string',value:'remarks',text:'备注',dictCode:''})
         this.superFieldList = fieldList
       }

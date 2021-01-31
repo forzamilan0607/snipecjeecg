@@ -4,11 +4,6 @@
       <a-form :form="form" slot="detail">
         <a-row>
           <a-col :span="8">
-            <a-form-item label="设备编号" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['code', validatorRules.code]" placeholder="请输入设备编号"  ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
             <a-form-item label="设备名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
               <a-input v-decorator="['name', validatorRules.name]" placeholder="请输入设备名称"  ></a-input>
             </a-form-item>
@@ -19,13 +14,23 @@
             </a-form-item>
           </a-col>
           <a-col :span="8">
-            <a-form-item label="二维码" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <j-image-upload isMultiple  v-decorator="['qrcode']" disabled></j-image-upload>
+            <a-form-item label="状态" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['states']" placeholder="请输入状态"  ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="8">
+            <a-form-item label="设备编号" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['code', validatorRules.code]" placeholder="请输入设备编号"  ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="8">
             <a-form-item label="生产厂家" :labelCol="labelCol" :wrapperCol="wrapperCol">
               <a-input v-decorator="['manufacturer']" placeholder="请输入生产厂家"  ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="8">
+            <a-form-item label="二维码Url" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <j-image-upload isMultiple  v-decorator="['qrcodeStringUrl']" ></j-image-upload>
             </a-form-item>
           </a-col>
           <a-col :span="8">
@@ -40,12 +45,7 @@
           </a-col>
           <a-col :span="8">
             <a-form-item label="投产日期" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <j-date placeholder="请选择投产日期" v-decorator="['commissiondate']" :trigger-change="true" :show-time="true" date-format="YYYY-MM-DD HH:mm:ss" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="数量" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number v-decorator="['quantity', validatorRules.quantity]" placeholder="请输入数量" style="width: 100%" />
+              <j-date placeholder="请选择投产日期" v-decorator="['commissiondate']" :trigger-change="true" style="width: 100%" />
             </a-form-item>
           </a-col>
           <a-col :span="8">
@@ -54,13 +54,13 @@
             </a-form-item>
           </a-col>
           <a-col :span="8">
-            <a-form-item label="保养人" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['maintainer']" placeholder="请输入保养人"  ></a-input>
+            <a-form-item label="仪器负责人" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['maintainer']" placeholder="请输入仪器负责人"  ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="8">
-            <a-form-item label="仪器部门" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['instrunentdept']" placeholder="请输入仪器部门"  ></a-input>
+            <a-form-item label="仪器使用部门" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['instrunentdept']" placeholder="请输入仪器使用部门"  ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="8">
@@ -69,38 +69,63 @@
             </a-form-item>
           </a-col>
           <a-col :span="8">
-            <a-form-item label="仪器检测日期" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <j-date placeholder="请选择仪器检测日期" v-decorator="['instrumenttestdate']" :trigger-change="true" :show-time="true" date-format="YYYY-MM-DD HH:mm:ss" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="下次检测日期" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <j-date placeholder="请选择下次检测日期" v-decorator="['nexttestdate']" :trigger-change="true" :show-time="true" date-format="YYYY-MM-DD HH:mm:ss" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
             <a-form-item label="说明书" :labelCol="labelCol" :wrapperCol="wrapperCol">
               <j-upload v-decorator="['description']" :trigger-change="true"  ></j-upload>
             </a-form-item>
           </a-col>
           <a-col :span="8">
-            <a-form-item label="仪器，设备" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['instrumentandequipment']" placeholder="请输入仪器，设备"  ></a-input>
+            <a-form-item label="校验类型（自校）" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['selfcalibration']" placeholder="请输入校验类型（自校）"  ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="8">
-            <a-form-item label="性质类别" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['naturecategory']" placeholder="请输入性质类别"  ></a-input>
+            <a-form-item label="自校.校验周期" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['selfcalibrationcycle']" placeholder="请输入自校.校验周期"  ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="8">
-            <a-form-item label="重要性类别" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['importancecategory']" placeholder="请输入重要性类别"  ></a-input>
+            <a-form-item label="自校.校验日期" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <j-date placeholder="请选择自校.校验日期" v-decorator="['instrumenttestdate']" :trigger-change="true" :show-time="true" date-format="YYYY-MM-DD HH:mm:ss" style="width: 100%" />
             </a-form-item>
           </a-col>
           <a-col :span="8">
-            <a-form-item label="状态" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['states']" placeholder="请输入状态"  ></a-input>
+            <a-form-item label="校验证书（自校）" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <j-image-upload isMultiple  v-decorator="['selfcalibrationimgs']" ></j-image-upload>
+            </a-form-item>
+          </a-col>
+          <a-col :span="8">
+            <a-form-item label="校验类型（外校）" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['othercalibration']" placeholder="请输入校验类型（外校）"  ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="8">
+            <a-form-item label="校验周期（外校）" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['othercalibrationcycle']" placeholder="请输入校验周期（外校）"  ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="8">
+            <a-form-item label="外校.校验日期" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <j-date placeholder="请选择外校.校验日期" v-decorator="['nexttestdate']" :trigger-change="true" :show-time="true" date-format="YYYY-MM-DD HH:mm:ss" style="width: 100%" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="8">
+            <a-form-item label="校验证书（外校）" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <j-image-upload isMultiple  v-decorator="['othercalibrationimgs']" ></j-image-upload>
+            </a-form-item>
+          </a-col>
+          <a-col :span="8">
+            <a-form-item label="维护保养周期" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['maintenancecycle']" placeholder="请输入维护保养周期"  ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="8">
+            <a-form-item label="维护保养日期" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <j-date placeholder="请选择维护保养日期" v-decorator="['maintenancedate']" :trigger-change="true" :show-time="true" date-format="YYYY-MM-DD HH:mm:ss" style="width: 100%" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="8">
+            <a-form-item label="维护保养记录（照片/视频）" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['maintenanceimg']" placeholder="请输入维护保养记录（照片/视频）"  ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="8">
@@ -169,21 +194,15 @@
         },
         confirmLoading: false,
         validatorRules: {
-          code: {
-            rules: [
-              { required: false},
-              { validator: (rule, value, callback) => validateDuplicateValue('deviceinformation', 'code', value, this.model.id, callback)},
-            ]
-          },
           name: {
             rules: [
               { required: true, message: '请输入设备名称!'},
             ]
           },
-          quantity: {
+          code: {
             rules: [
               { required: false},
-              { pattern: /^-?\d+$/, message: '请输入整数!'},
+              { validator: (rule, value, callback) => validateDuplicateValue('deviceinformation', 'code', value, this.model.id, callback)},
             ]
           },
           unitprice: {
@@ -232,7 +251,7 @@
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'code','name','model','qrcodeString','manufacturer','manufacturercode','manufacturerdate','commissiondate','quantity','unitprice','maintainer','instrunentdept','placementlocation','instrumenttestdate','nexttestdate','descriptionString','instrumentandequipment','naturecategory','importancecategory','states','remarks'))
+          this.form.setFieldsValue(pick(this.model,'name','model','states','code','manufacturer','qrcodeStringUrl','manufacturercode','manufacturerdate','commissiondate','unitprice','maintainer','instrunentdept','placementlocation','descriptionString','selfcalibration','selfcalibrationcycle','instrumenttestdate','selfcalibrationimgs','othercalibration','othercalibrationcycle','nexttestdate','othercalibrationimgs','maintenancecycle','maintenancedate','maintenanceimg','remarks'))
         })
       },
       //渲染流程表单数据
@@ -278,7 +297,7 @@
         })
       },
       popupCallback(row){
-        this.form.setFieldsValue(pick(row,'code','name','model','qrcodeString','manufacturer','manufacturercode','manufacturerdate','commissiondate','quantity','unitprice','maintainer','instrunentdept','placementlocation','instrumenttestdate','nexttestdate','descriptionString','instrumentandequipment','naturecategory','importancecategory','states','remarks'))
+        this.form.setFieldsValue(pick(row,'name','model','states','code','manufacturer','qrcodeStringUrl','manufacturercode','manufacturerdate','commissiondate','unitprice','maintainer','instrunentdept','placementlocation','descriptionString','selfcalibration','selfcalibrationcycle','instrumenttestdate','selfcalibrationimgs','othercalibration','othercalibrationcycle','nexttestdate','othercalibrationimgs','maintenancecycle','maintenancedate','maintenanceimg','remarks'))
       },
     }
   }
