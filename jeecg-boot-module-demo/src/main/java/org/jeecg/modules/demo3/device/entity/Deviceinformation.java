@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 /**
  * @Description: 设备信息
  * @Author: jeecg-boot
- * @Date:   2021-01-24
+ * @Date:   2021-01-31
  * @Version: V1.0
  */
 @Data
@@ -54,10 +54,6 @@ public class Deviceinformation implements Serializable {
 	/**所属部门*/
     @ApiModelProperty(value = "所属部门")
     private java.lang.String sysOrgCode;
-	/**设备编号*/
-	@Excel(name = "设备编号", width = 15)
-    @ApiModelProperty(value = "设备编号")
-    private java.lang.String code;
 	/**设备名称*/
 	@Excel(name = "设备名称", width = 15)
     @ApiModelProperty(value = "设备名称")
@@ -66,15 +62,23 @@ public class Deviceinformation implements Serializable {
 	@Excel(name = "规格型号", width = 15)
     @ApiModelProperty(value = "规格型号")
     private java.lang.String model;
-
+	/**状态*/
+	@Excel(name = "状态", width = 15)
+    @ApiModelProperty(value = "状态")
+    private java.lang.String states;
+	/**设备编号*/
+	@Excel(name = "设备编号", width = 15)
+    @ApiModelProperty(value = "设备编号")
+    private java.lang.String code;
+	/**生产厂家*/
+	@Excel(name = "生产厂家", width = 15)
+    @ApiModelProperty(value = "生产厂家")
+    private java.lang.String manufacturer;
+	/**二维码*/
+	@Excel(name = "二维码", width = 15)
     private transient java.lang.String qrcodeString;
 
     private byte[] qrcode;
-
-
-    /**二维码Url*/
-    @Excel(name = "二维码Url", width = 15)
-    private java.lang.String qrcodeStringUrl;
 
     public byte[] getQrcode(){
         if(qrcodeString==null){
@@ -99,10 +103,10 @@ public class Deviceinformation implements Serializable {
         }
         return "";
     }
-	/**生产厂家*/
-	@Excel(name = "生产厂家", width = 15)
-    @ApiModelProperty(value = "生产厂家")
-    private java.lang.String manufacturer;
+	/**二维码Url*/
+	@Excel(name = "二维码Url", width = 15)
+    @ApiModelProperty(value = "二维码Url")
+    private java.lang.String qrcodeStringUrl;
 	/**出产编号*/
 	@Excel(name = "出产编号", width = 15)
     @ApiModelProperty(value = "出产编号")
@@ -114,9 +118,9 @@ public class Deviceinformation implements Serializable {
     @ApiModelProperty(value = "出产日期")
     private java.util.Date manufacturerdate;
 	/**投产日期*/
-	@Excel(name = "投产日期", width = 20, format = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@Excel(name = "投产日期", width = 15, format = "yyyy-MM-dd")
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     @ApiModelProperty(value = "投产日期")
     private java.util.Date commissiondate;
 	/**数量*/
@@ -127,30 +131,18 @@ public class Deviceinformation implements Serializable {
 	@Excel(name = "单价", width = 15)
     @ApiModelProperty(value = "单价")
     private java.lang.Double unitprice;
-	/**保养人*/
-	@Excel(name = "保养人", width = 15)
-    @ApiModelProperty(value = "保养人")
+	/**仪器负责人*/
+	@Excel(name = "仪器负责人", width = 15)
+    @ApiModelProperty(value = "仪器负责人")
     private java.lang.String maintainer;
-	/**仪器部门*/
-	@Excel(name = "仪器部门", width = 15)
-    @ApiModelProperty(value = "仪器部门")
+	/**仪器使用部门*/
+	@Excel(name = "仪器使用部门", width = 15)
+    @ApiModelProperty(value = "仪器使用部门")
     private java.lang.String instrunentdept;
 	/**放置地点*/
 	@Excel(name = "放置地点", width = 15)
     @ApiModelProperty(value = "放置地点")
     private java.lang.String placementlocation;
-	/**仪器检测日期*/
-	@Excel(name = "仪器检测日期", width = 20, format = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "仪器检测日期")
-    private java.util.Date instrumenttestdate;
-	/**下次检测日期*/
-	@Excel(name = "下次检测日期", width = 20, format = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "下次检测日期")
-    private java.util.Date nexttestdate;
 	/**说明书*/
 	@Excel(name = "说明书", width = 15)
     private transient java.lang.String descriptionString;
@@ -180,6 +172,62 @@ public class Deviceinformation implements Serializable {
         }
         return "";
     }
+	/**校验类型（自校）*/
+	@Excel(name = "校验类型（自校）", width = 15)
+    @ApiModelProperty(value = "校验类型（自校）")
+    private java.lang.String selfcalibration;
+	/**自校.校验周期*/
+	@Excel(name = "自校.校验周期", width = 15)
+    @ApiModelProperty(value = "自校.校验周期")
+    private java.lang.String selfcalibrationcycle;
+	/**自校.校验日期*/
+	@Excel(name = "自校.校验日期", width = 20, format = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "自校.校验日期")
+    private java.util.Date instrumenttestdate;
+	/**校验证书（自校）*/
+	@Excel(name = "校验证书（自校）", width = 15)
+    @ApiModelProperty(value = "校验证书（自校）")
+    private java.lang.String selfcalibrationimgs;
+	/**校验类型（外校）*/
+	@Excel(name = "校验类型（外校）", width = 15)
+    @ApiModelProperty(value = "校验类型（外校）")
+    private java.lang.String othercalibration;
+	/**校验周期（外校）*/
+	@Excel(name = "校验周期（外校）", width = 15)
+    @ApiModelProperty(value = "校验周期（外校）")
+    private java.lang.String othercalibrationcycle;
+	/**外校.校验日期*/
+	@Excel(name = "外校.校验日期", width = 20, format = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "外校.校验日期")
+    private java.util.Date nexttestdate;
+	/**校验证书（外校）*/
+	@Excel(name = "校验证书（外校）", width = 15)
+    @ApiModelProperty(value = "校验证书（外校）")
+    private java.lang.String othercalibrationimgs;
+	/**维护保养周期*/
+	@Excel(name = "维护保养周期", width = 15)
+    @ApiModelProperty(value = "维护保养周期")
+    private java.lang.String maintenancecycle;
+	/**维护保养日期*/
+	@Excel(name = "维护保养日期", width = 20, format = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "维护保养日期")
+    private java.util.Date maintenancedate;
+	/**维护保养记录（照片/视频）*/
+	@Excel(name = "维护保养记录（照片/视频）", width = 15)
+    @ApiModelProperty(value = "维护保养记录（照片/视频）")
+    private java.lang.String maintenanceimg;
+
+    private java.lang.String maintenanceimgh5;
+	/**备注*/
+	@Excel(name = "备注", width = 15)
+    @ApiModelProperty(value = "备注")
+    private java.lang.String remarks;
 	/**仪器，设备*/
 	@Excel(name = "仪器，设备", width = 15)
     @ApiModelProperty(value = "仪器，设备")
@@ -192,12 +240,4 @@ public class Deviceinformation implements Serializable {
 	@Excel(name = "重要性类别", width = 15)
     @ApiModelProperty(value = "重要性类别")
     private java.lang.String importancecategory;
-	/**状态*/
-	@Excel(name = "状态", width = 15)
-    @ApiModelProperty(value = "状态")
-    private java.lang.String states;
-	/**备注*/
-	@Excel(name = "备注", width = 15)
-    @ApiModelProperty(value = "备注")
-    private java.lang.String remarks;
 }
