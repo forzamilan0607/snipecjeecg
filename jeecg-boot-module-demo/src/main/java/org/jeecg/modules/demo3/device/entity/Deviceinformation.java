@@ -186,10 +186,17 @@ public class Deviceinformation implements Serializable {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "自校.校验日期")
     private java.util.Date instrumenttestdate;
+
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private java.util.Date instrumenttestdatenew;
 	/**校验证书（自校）*/
 	@Excel(name = "校验证书（自校）", width = 15)
     @ApiModelProperty(value = "校验证书（自校）")
     private java.lang.String selfcalibrationimgs;
+
+    private java.lang.String selfcalibrationimgsh5;
+
 	/**校验类型（外校）*/
 	@Excel(name = "校验类型（外校）", width = 15)
     @ApiModelProperty(value = "校验类型（外校）")
@@ -204,10 +211,16 @@ public class Deviceinformation implements Serializable {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "外校.校验日期")
     private java.util.Date nexttestdate;
+
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private java.util.Date nexttestdatenew;
 	/**校验证书（外校）*/
 	@Excel(name = "校验证书（外校）", width = 15)
     @ApiModelProperty(value = "校验证书（外校）")
     private java.lang.String othercalibrationimgs;
+
+    private java.lang.String othercalibrationimgsh5;
 	/**维护保养周期*/
 	@Excel(name = "维护保养周期", width = 15)
     @ApiModelProperty(value = "维护保养周期")

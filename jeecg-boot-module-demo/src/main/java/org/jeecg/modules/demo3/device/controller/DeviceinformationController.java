@@ -130,8 +130,20 @@ public class DeviceinformationController extends JeecgController<Deviceinformati
 	@AutoLog(value = "设备信息-编辑")
 	@ApiOperation(value="设备信息-编辑", notes="设备信息-编辑")
 	@PutMapping(value = "/edit")
-	public Result<?> edit(@RequestBody Deviceinformation deviceinformation) {
-		deviceinformationService.updateById(deviceinformation);
+	public Result<?> edit(@RequestBody Deviceinformation fo) {
+		Deviceinformation dev = deviceinformationService.getById(fo.getId());
+
+		dev.setMaintenanceimg(fo.getMaintenanceimg());
+		dev.setInstrumenttestdatenew(fo.getInstrumenttestdatenew());
+		dev.setInstrumenttestdate(fo.getInstrumenttestdate());
+		dev.setMaintenancedate(fo.getMaintenancedate());
+		dev.setMaintenancecycle(fo.getMaintenancecycle());
+		dev.setOthercalibrationimgs(fo.getOthercalibrationimgs());
+		dev.setNexttestdate(fo.getNexttestdate());
+		dev.setNexttestdatenew(fo.getNexttestdatenew());
+		dev.setRemarks(fo.getRemarks());
+		dev.setStates(fo.getStates());
+		deviceinformationService.updateById(dev);
 		return Result.OK("编辑成功!");
 	}
 	
@@ -177,16 +189,39 @@ public class DeviceinformationController extends JeecgController<Deviceinformati
 		if(deviceinformation==null) {
 			return Result.error("未找到对应数据");
 		}
-		String maintenanceimgh5="";
-		String imglist=deviceinformation.getMaintenanceimg();
-		if (imglist!=null&&!"".equals(imglist)){
-			String[] img=imglist.split(",");
-			for (String src:img) {
-				maintenanceimgh5 += "<a href='"+QRcodeController.hosturlapi+"sys/common/static/"+src+ "'><img src='"+QRcodeController.hosturlapi+"sys/common/static/"+src+ "'></a><br/>";
+		{
+			String maintenanceimgh5 = "";
+			String imglist = deviceinformation.getMaintenanceimg();
+			if (imglist != null && !"".equals(imglist)) {
+				String[] img = imglist.split(",");
+				for (String src : img) {
+					maintenanceimgh5 += "<a href='" + QRcodeController.hosturlapi + "sys/common/static/" + src + "'><img src='" + QRcodeController.hosturlapi + "sys/common/static/" + src + "'></a><br/>";
+				}
 			}
+			deviceinformation.setMaintenanceimgh5(maintenanceimgh5);
 		}
-		deviceinformation.setMaintenanceimgh5(maintenanceimgh5);
-
+		{
+			String maintenanceimgh5 = "";
+			String imglist = deviceinformation.getSelfcalibrationimgsh5();
+			if (imglist != null && !"".equals(imglist)) {
+				String[] img = imglist.split(",");
+				for (String src : img) {
+					maintenanceimgh5 += "<a href='" + QRcodeController.hosturlapi + "sys/common/static/" + src + "'><img src='" + QRcodeController.hosturlapi + "sys/common/static/" + src + "'></a><br/>";
+				}
+			}
+			deviceinformation.setSelfcalibrationimgsh5(maintenanceimgh5);
+		}
+		{
+			String maintenanceimgh5 = "";
+			String imglist = deviceinformation.getOthercalibrationimgsh5();
+			if (imglist != null && !"".equals(imglist)) {
+				String[] img = imglist.split(",");
+				for (String src : img) {
+					maintenanceimgh5 += "<a href='" + QRcodeController.hosturlapi + "sys/common/static/" + src + "'><img src='" + QRcodeController.hosturlapi + "sys/common/static/" + src + "'></a><br/>";
+				}
+			}
+			deviceinformation.setOthercalibrationimgsh5(maintenanceimgh5);
+		}
 
 		String filename = deviceinformation.getId() + ".png";
 		String text = QRcodeController.hosturl + "/device?id=" + deviceinformation.getId();

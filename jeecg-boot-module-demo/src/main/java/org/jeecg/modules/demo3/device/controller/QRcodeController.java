@@ -26,7 +26,7 @@ public class QRcodeController {
 
     public  static  String hosturl="http://172.16.19.37:3000";
 
-    public  static  String hosturlapi="http://172.16.19.37:8088/jeecg-boot/";
+    public  static  String hosturlapi="http://172.16.19.37:8080/jeecg-boot/";
 
     @GetMapping(value = "/getImage", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_PNG_VALUE})
     @ApiOperation("获取图片-返回BufferedImage")
