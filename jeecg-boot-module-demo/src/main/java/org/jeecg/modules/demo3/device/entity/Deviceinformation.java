@@ -112,9 +112,9 @@ public class Deviceinformation implements Serializable {
     @ApiModelProperty(value = "出产编号")
     private java.lang.String manufacturercode;
 	/**出产日期*/
-	@Excel(name = "出产日期", width = 20, format = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@Excel(name = "出产日期", width = 20, format = "yyyy-MM-dd")
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     @ApiModelProperty(value = "出产日期")
     private java.util.Date manufacturerdate;
 	/**投产日期*/
@@ -181,14 +181,14 @@ public class Deviceinformation implements Serializable {
     @ApiModelProperty(value = "自校.校验周期")
     private java.lang.String selfcalibrationcycle;
 	/**自校.校验日期*/
-	@Excel(name = "自校.校验日期", width = 20, format = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@Excel(name = "自校.校验日期", width = 20, format = "yyyy-MM-dd")
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     @ApiModelProperty(value = "自校.校验日期")
     private java.util.Date instrumenttestdate;
 
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private java.util.Date instrumenttestdatenew;
 	/**校验证书（自校）*/
 	@Excel(name = "校验证书（自校）", width = 15)
@@ -206,14 +206,14 @@ public class Deviceinformation implements Serializable {
     @ApiModelProperty(value = "校验周期（外校）")
     private java.lang.String othercalibrationcycle;
 	/**外校.校验日期*/
-	@Excel(name = "外校.校验日期", width = 20, format = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@Excel(name = "外校.校验日期", width = 20, format = "yyyy-MM-dd")
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     @ApiModelProperty(value = "外校.校验日期")
     private java.util.Date nexttestdate;
 
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private java.util.Date nexttestdatenew;
 	/**校验证书（外校）*/
 	@Excel(name = "校验证书（外校）", width = 15)
@@ -226,9 +226,9 @@ public class Deviceinformation implements Serializable {
     @ApiModelProperty(value = "维护保养周期")
     private java.lang.String maintenancecycle;
 	/**维护保养日期*/
-	@Excel(name = "维护保养日期", width = 20, format = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@Excel(name = "维护保养日期", width = 20, format = "yyyy-MM-dd")
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     @ApiModelProperty(value = "维护保养日期")
     private java.util.Date maintenancedate;
 	/**维护保养记录（照片/视频）*/
