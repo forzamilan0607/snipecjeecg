@@ -145,33 +145,10 @@ public class Deviceinformation implements Serializable {
     private java.lang.String placementlocation;
 	/**说明书*/
 	@Excel(name = "说明书", width = 15)
-    private transient java.lang.String descriptionString;
+    @ApiModelProperty(value = "说明书")
+    private java.lang.String description;
 
-    private byte[] description;
 
-    public byte[] getDescription(){
-        if(descriptionString==null){
-            return null;
-        }
-        try {
-            return descriptionString.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public String getDescriptionString(){
-        if(description==null || description.length==0){
-            return "";
-        }
-        try {
-            return new String(description,"UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
 	/**校验类型（自校）*/
 	@Excel(name = "校验类型（自校）", width = 15)
     @ApiModelProperty(value = "校验类型（自校）")
@@ -194,8 +171,6 @@ public class Deviceinformation implements Serializable {
 	@Excel(name = "校验证书（自校）", width = 15)
     @ApiModelProperty(value = "校验证书（自校）")
     private java.lang.String selfcalibrationimgs;
-
-    private java.lang.String selfcalibrationimgsh5;
 
 	/**校验类型（外校）*/
 	@Excel(name = "校验类型（外校）", width = 15)
@@ -220,7 +195,6 @@ public class Deviceinformation implements Serializable {
     @ApiModelProperty(value = "校验证书（外校）")
     private java.lang.String othercalibrationimgs;
 
-    private java.lang.String othercalibrationimgsh5;
 	/**维护保养周期*/
 	@Excel(name = "维护保养周期", width = 15)
     @ApiModelProperty(value = "维护保养周期")
@@ -236,7 +210,6 @@ public class Deviceinformation implements Serializable {
     @ApiModelProperty(value = "维护保养记录（照片/视频）")
     private java.lang.String maintenanceimg;
 
-    private java.lang.String maintenanceimgh5;
 	/**备注*/
 	@Excel(name = "备注", width = 15)
     @ApiModelProperty(value = "备注")
