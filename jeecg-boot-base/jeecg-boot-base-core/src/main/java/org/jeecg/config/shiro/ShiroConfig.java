@@ -89,7 +89,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/sys/common/pdf/**", "anon");//pdf预览
         filterChainDefinitionMap.put("/QRcode/getImage", "anon"); //二维码排除
         filterChainDefinitionMap.put("/device", "anon");
-        filterChainDefinitionMap.put("/device/deviceinformation/**", "anon");
+        filterChainDefinitionMap.put("/device/deviceinformation/edit2", "anon");
+        filterChainDefinitionMap.put("/device/deviceinformation/queryById", "anon");
         filterChainDefinitionMap.put("/sys/common/view/**", "anon");//图片预览不限制token
         filterChainDefinitionMap.put("/sys/common/download/**", "anon");//文件下载不限制token
         filterChainDefinitionMap.put("/generic/**", "anon");//pdf预览需要文件
