@@ -6,8 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
+import org.jeecg.common.system.vo.LoginUser;
 import org.jeecg.common.util.QRCodeReturnDbpath;
 import org.jeecg.modules.demo3.device.entity.Deviceinformation;
 import org.jeecg.modules.demo3.device.service.IDeviceinformationService;
@@ -56,6 +58,8 @@ public class DeviceinformationController extends JeecgController<Deviceinformati
                                    @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
                                    HttpServletRequest req) {
         QueryWrapper<Deviceinformation> queryWrapper = QueryGenerator.initQueryWrapper(deviceinformation, req.getParameterMap());
+        LoginUser loginUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+        queryWrapper.eq("sys_org_code", loginUser.getOrgCode());
         Page<Deviceinformation> page = new Page<Deviceinformation>(pageNo, pageSize);
         IPage<Deviceinformation> pageList = deviceinformationService.page(page, queryWrapper);
 
@@ -115,6 +119,20 @@ public class DeviceinformationController extends JeecgController<Deviceinformati
     @ApiOperation(value = "设备信息-编辑", notes = "设备信息-编辑")
     @PutMapping(value = "/edit")
     public Result<?> edit(@RequestBody Deviceinformation fo) {
+        deviceinformationService.updateById(fo);
+        return Result.OK("编辑成功!");
+    }
+
+    /**
+     * 编辑
+     *
+     * @param deviceinformation
+     * @return
+     */
+    @AutoLog(value = "设备信息-H5编辑")
+    @ApiOperation(value = "设备信息-H5编辑", notes = "设备信息-H5编辑")
+    @PutMapping(value = "/edit2")
+    public Result<?> edit2(@RequestBody Deviceinformation fo) {
         deviceinformationService.updateById(fo);
         return Result.OK("编辑成功!");
     }
