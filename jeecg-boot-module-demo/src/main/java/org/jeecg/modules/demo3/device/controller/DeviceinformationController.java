@@ -2,11 +2,13 @@ package org.jeecg.modules.demo3.device.controller;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.jeecg.common.api.CommonAPI;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.system.vo.LoginUser;
@@ -41,6 +43,9 @@ public class DeviceinformationController extends JeecgController<Deviceinformati
     @Autowired
     private IDeviceinformationService deviceinformationService;
 
+    @Autowired
+    private CommonAPI commonAPI;
+
     /**
      * 分页列表查询
      *
@@ -59,7 +64,9 @@ public class DeviceinformationController extends JeecgController<Deviceinformati
                                    HttpServletRequest req) {
         QueryWrapper<Deviceinformation> queryWrapper = QueryGenerator.initQueryWrapper(deviceinformation, req.getParameterMap());
         LoginUser loginUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
-        queryWrapper.eq("sys_org_code", loginUser.getOrgCode());
+        if (this.needFilterDept(loginUser.getUsername())) {
+            queryWrapper.eq("sys_org_code", loginUser.getOrgCode());
+        }
         Page<Deviceinformation> page = new Page<Deviceinformation>(pageNo, pageSize);
         IPage<Deviceinformation> pageList = deviceinformationService.page(page, queryWrapper);
 
@@ -93,6 +100,16 @@ public class DeviceinformationController extends JeecgController<Deviceinformati
             }
         }
         return Result.OK(pageList);
+    }
+
+    private boolean needFilterDept(String username) {
+        Set<String> roles = this.commonAPI.queryUserRoles(username);
+        for (String role : roles) {
+            if ("admin".equals(role) || "leader".equals(role)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
