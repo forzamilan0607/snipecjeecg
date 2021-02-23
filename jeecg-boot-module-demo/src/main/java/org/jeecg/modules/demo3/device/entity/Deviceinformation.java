@@ -104,7 +104,7 @@ public class Deviceinformation implements Serializable {
         return "";
     }
 	/**二维码Url*/
-	@Excel(name = "二维码Url", width = 15)
+//	@Excel(name = "二维码Url", width = 15)
     @ApiModelProperty(value = "二维码Url")
     private java.lang.String qrcodeStringUrl;
 	/**出产编号*/

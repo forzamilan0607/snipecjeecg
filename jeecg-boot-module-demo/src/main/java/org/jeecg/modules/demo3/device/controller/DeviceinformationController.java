@@ -69,37 +69,36 @@ public class DeviceinformationController extends JeecgController<Deviceinformati
         }
         Page<Deviceinformation> page = new Page<Deviceinformation>(pageNo, pageSize);
         IPage<Deviceinformation> pageList = deviceinformationService.page(page, queryWrapper);
-
-        for (Deviceinformation dev : pageList.getRecords()
-                ) {
-            String filename = dev.getId() + ".png";
-            String text = QRcodeController.hostUrl + "/device?id=" + dev.getId();
-
-            if (StringUtils.isNotEmpty(dev.getQrcodeStringUrl())) {
-                log.info("已经生成二维码，URL = {}", dev.getQrcodeStringUrl());
-                continue;
-            }
-            dev.setQrcodeStringUrl(QRcodeController.hostUrlApi + "/QRcode/getImage?text=" + dev.getId() + "&t=" + System.currentTimeMillis());
-
-            String imgPath = "D:\\";
-            File file = QRCodeReturnDbpath.genQrCodeImg("utf-8", 300, 300, imgPath, filename, text);
-
-            FileInputStream fis;
-            try {
-                fis = new FileInputStream(file);
-                long size = file.length();
-                byte[] temp = new byte[(int) size];
-                fis.read(temp, 0, (int) size);
-                fis.close();
-                dev.setQrcode(temp);
-                deviceinformationService.updateById(dev);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+        for (Deviceinformation dev : pageList.getRecords()) {
+            if (StringUtils.isEmpty(dev.getQrcodeStringUrl())) {
+                this.generateQrcode(dev);
             }
         }
         return Result.OK(pageList);
+    }
+
+    private void generateQrcode(Deviceinformation dev) {
+        String filename = dev.getId() + ".png";
+        String text = QRcodeController.hostUrl + "/device?id=" + dev.getId();
+        dev.setQrcodeStringUrl(QRcodeController.hostUrlApi + "/QRcode/getImage?text=" + dev.getId() + "&t=" + System.currentTimeMillis());
+
+        String imgPath = "D:\\";
+        File file = QRCodeReturnDbpath.genQrCodeImg("utf-8", 300, 300, imgPath, filename, text);
+
+        FileInputStream fis;
+        try {
+            fis = new FileInputStream(file);
+            long size = file.length();
+            byte[] temp = new byte[(int) size];
+            fis.read(temp, 0, (int) size);
+            fis.close();
+            dev.setQrcode(temp);
+            deviceinformationService.updateById(dev);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean needFilterDept(String username) {
@@ -192,73 +191,8 @@ public class DeviceinformationController extends JeecgController<Deviceinformati
     @ApiOperation(value = "设备信息-通过id查询", notes = "设备信息-通过id查询")
     @GetMapping(value = "/queryById")
     public Result<?> queryById(@RequestParam(name = "id", required = true) String id) {
-        /*Deviceinformation deviceinformation = deviceinformationService.getById(id);
-        if (deviceinformation == null) {
-            return Result.error("未找到对应数据");
-        }
-        {
-            String maintenanceimgh5 = "";
-            String imglist = deviceinformation.getMaintenanceimg();
-            if (imglist != null && !"".equals(imglist)) {
-                String[] img = imglist.split(",");
-                for (String src : img) {
-                    maintenanceimgh5 += "<a href='" + QRcodeController.hostUrlApi + "sys/common/static/" + src + "'><img src='" + QRcodeController.hostUrlApi + "sys/common/static/" + src + "'></a><br/>";
-                }
-            }
-            deviceinformation.setMaintenanceimgh5(maintenanceimgh5);
-        }
-        {
-            String maintenanceimgh5 = "";
-            String imglist = deviceinformation.getSelfcalibrationimgsh5();
-            if (imglist != null && !"".equals(imglist)) {
-                String[] img = imglist.split(",");
-                for (String src : img) {
-                    maintenanceimgh5 += "<a href='" + QRcodeController.hostUrlApi + "sys/common/static/" + src + "'><img src='" + QRcodeController.hostUrlApi + "sys/common/static/" + src + "'></a><br/>";
-                }
-            }
-            deviceinformation.setSelfcalibrationimgsh5(maintenanceimgh5);
-        }
-        {
-            String maintenanceimgh5 = "";
-            String imglist = deviceinformation.getOthercalibrationimgsh5();
-            if (imglist != null && !"".equals(imglist)) {
-                String[] img = imglist.split(",");
-                for (String src : img) {
-                    maintenanceimgh5 += "<a href='" + QRcodeController.hostUrlApi + "sys/common/static/" + src + "'><img src='" + QRcodeController.hostUrlApi + "sys/common/static/" + src + "'></a><br/>";
-                }
-            }
-            deviceinformation.setOthercalibrationimgsh5(maintenanceimgh5);
-        }
-
-        String filename = deviceinformation.getId() + ".png";
-        String text = QRcodeController.hostUrl + "/device?id=" + deviceinformation.getId();
-
-        deviceinformation.setQrcodeStringUrl(QRcodeController.hostUrlApi + "/QRcode/getImage?text=" + deviceinformation.getId() + "&t=" + System.currentTimeMillis());
-        String imgPath = "D:\\";
-        File file = QRCodeReturnDbpath.genQrCodeImg("utf-8", 300, 300, imgPath, filename, text);
-        FileInputStream fis;
-        try {
-            fis = new FileInputStream(file);
-//			try {
-//				String urlfilename=	MinioUtil.upload( new FileInputStream(file),filename);
-//				System.out.println(urlfilename);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-            long size = file.length();
-            byte[] temp = new byte[(int) size];
-            fis.read(temp, 0, (int) size);
-            fis.close();
-            deviceinformation.setQrcode(temp);
-            deviceinformationService.updateById(deviceinformation);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return Result.OK(deviceinformation);*/
         Deviceinformation deviceinformation = deviceinformationService.getById(id);
-        if(deviceinformation==null) {
+        if (deviceinformation == null) {
             return Result.error("未找到对应数据");
         }
         return Result.OK(deviceinformation);
