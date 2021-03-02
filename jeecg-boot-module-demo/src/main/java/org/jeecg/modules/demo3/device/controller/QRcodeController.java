@@ -33,8 +33,8 @@ public class QRcodeController {
     static {
         try {
             urlPrefix = "http://" + InetAddress.getLocalHost().getHostAddress();
-            hostUrl = urlPrefix + ":3000";
-            hostUrlApi = urlPrefix + ":8080/jeecg-boot/";
+            hostUrl = "http://clsbs.cn:3000";
+            hostUrlApi = urlPrefix + ":8088/jeecg-boot/";
             log.info("主机地址 = {} API 地址 = {}", hostUrl, hostUrlApi);
         } catch (UnknownHostException e) {
             e.printStackTrace();
