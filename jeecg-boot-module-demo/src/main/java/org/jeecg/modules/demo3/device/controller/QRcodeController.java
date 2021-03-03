@@ -4,6 +4,7 @@ package org.jeecg.modules.demo3.device.controller;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.common.util.QRCodeReturnDbpath;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,22 +25,30 @@ import java.net.UnknownHostException;
 @Slf4j
 public class QRcodeController {
 
-    private static String urlPrefix;
-
     public static String hostUrl;
 
     public static String hostUrlApi;
 
-    static {
-        try {
-            urlPrefix = "http://" + InetAddress.getLocalHost().getHostAddress();
-            hostUrl = "http://clsbs.cn:3000";
-            hostUrlApi = urlPrefix + ":8088/jeecg-boot/";
-            log.info("主机地址 = {} API 地址 = {}", hostUrl, hostUrlApi);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+    @Value("${jeecg.hostUrl:http://101.37.81.229}")
+    public void setHostUrl(String hostUrl) {
+        QRcodeController.hostUrl = hostUrl;
     }
+
+    @Value("${jeecg.hostUrlApi:http://101.37.81.229}")
+    public void setHostUrlApi(String hostUrlApi) {
+        QRcodeController.hostUrlApi = hostUrlApi;
+    }
+
+/*static {
+            try {
+                urlPrefix = "http://" + InetAddress.getLocalHost().getHostAddress();
+                hostUrl = "http://101.37.81.229";
+                hostUrlApi = hostUrl;// urlPrefix + ":8088/jeecg-boot/";
+                log.info("主机地址 = {} API 地址 = {}", hostUrl, hostUrlApi);
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+        }*/
 
     @GetMapping(value = "/getImage", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_PNG_VALUE})
     @ApiOperation("获取图片-返回BufferedImage")
