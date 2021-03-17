@@ -158,14 +158,16 @@ public class Deviceinformation implements Serializable {
     @ApiModelProperty(value = "自校.校验周期")
     private java.lang.String selfcalibrationcycle;
 	/**自校.校验日期*/
-	@Excel(name = "自校.校验日期", width = 20, format = "yyyy-MM-dd")
+	@Excel(name = "自校上次校验日期", width = 20, format = "yyyy-MM-dd")
 	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd")
-    @ApiModelProperty(value = "自校.校验日期")
+    @ApiModelProperty(value = "自校上次校验日期")
     private java.util.Date instrumenttestdate;
 
+	@Excel(name = "自校本次校验日期", width = 20, format = "yyyy-MM-dd")
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd")
+    @ApiModelProperty(value = "自校本次校验日期")
     private java.util.Date instrumenttestdatenew;
 	/**校验证书（自校）*/
 	@Excel(name = "校验证书（自校）", width = 15)
@@ -181,14 +183,16 @@ public class Deviceinformation implements Serializable {
     @ApiModelProperty(value = "校验周期（外校）")
     private java.lang.String othercalibrationcycle;
 	/**外校.校验日期*/
-	@Excel(name = "外校.校验日期", width = 20, format = "yyyy-MM-dd")
+	@Excel(name = "外校上次校验日期", width = 20, format = "yyyy-MM-dd")
 	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd")
-    @ApiModelProperty(value = "外校.校验日期")
+    @ApiModelProperty(value = "外校上次校验日期")
     private java.util.Date nexttestdate;
 
+	@Excel(name = "外校本次校验时间", width = 20, format = "yyyy-MM-dd")
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd")
+    @ApiModelProperty(value = "外校本次校验日期")
     private java.util.Date nexttestdatenew;
 	/**校验证书（外校）*/
 	@Excel(name = "校验证书（外校）", width = 15)
