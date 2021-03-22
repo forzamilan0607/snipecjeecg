@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.jeecg.common.api.CommonAPI;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.system.vo.LoginUser;
@@ -16,6 +17,7 @@ import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.jeecgframework.poi.excel.view.JeecgEntityExcelView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +28,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -36,6 +39,10 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class JeecgController<T, S extends IService<T>> {
+
+    @Autowired
+    private CommonAPI commonAPI;
+
     @Autowired
     S service;
 
@@ -49,6 +56,10 @@ public class JeecgController<T, S extends IService<T>> {
         QueryWrapper<T> queryWrapper = QueryGenerator.initQueryWrapper(object, request.getParameterMap());
         LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
 
+        if (ObjectUtils.nullSafeEquals(clazz.getName(), "org.jeecg.modules.demo3.device.entity.Deviceinformation") &&
+                this.needFilterDept(sysUser.getUsername())) {
+            queryWrapper.eq("sys_org_code", sysUser.getOrgCode());
+        }
         // Step.2 获取导出数据
         List<T> pageList = service.list(queryWrapper);
         List<T> exportList = null;
@@ -70,6 +81,16 @@ public class JeecgController<T, S extends IService<T>> {
         mv.addObject(NormalExcelConstants.PARAMS, new ExportParams(title + "报表", "导出人:" + name, title));
         mv.addObject(NormalExcelConstants.DATA_LIST, exportList);
         return mv;
+    }
+
+    private boolean needFilterDept(String username) {
+        Set<String> roles = this.commonAPI.queryUserRoles(username);
+        for (String role : roles) {
+            if ("admin".equals(role) || "leader".equals(role)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
